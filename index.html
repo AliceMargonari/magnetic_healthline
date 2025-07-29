@@ -67,3 +67,45 @@
   <p>Despite the popularity of magnetic bracelets, science has largely disproven the effectiveness of such magnets in treating chronic pain, inflammation, disease, and general health deficiencies.
 
 Don’t use magnets as a replacement for proper medical attention, and avoid them if you have a pacemaker or use an insulin pump.</p>
+  <br>
+  <p style="text-transform: uppercase; color: blue; margin-bottom: 30px;">
+  You may now close this tab and return to the survey  
+  </p>
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const prolific_pid = params.get("prolific_pid");
+  const condition = params.get("condition");
+  const page_name = params.get("page_name");
+
+  const entryTime = new Date();
+
+  const entryIds = {
+    prolific_pid: "entry.434492044",
+    condition: "entry.1225575535",
+    page_name: "entry.925161350",
+    entry_time: "entry.732388184",
+    exit_time: "entry.372350073",
+    time_spent: "entry.298480214"
+  };
+
+  window.addEventListener("unload", function () {
+    const exitTime = new Date();
+    const timeSpent = Math.round((exitTime - entryTime) / 1000);
+
+    const formData = new FormData();
+    formData.append(entryIds.prolific_pid, prolific_pid);
+    formData.append(entryIds.condition, condition);
+    formData.append(entryIds.page_name, page_name);
+    formData.append(entryIds.entry_time, entryTime.toISOString());
+    formData.append(entryIds.exit_time, exitTime.toISOString());
+    formData.append(entryIds.time_spent, timeSpent);
+
+    navigator.sendBeacon(
+      "https://docs.google.com/forms/d/e/1FAIpQLSfPfKcw2oVlFINPNThg4q0FgfVdxxCCLn40vwPY6nXEH2ybeQ/formResponse",
+      new URLSearchParams(formData)
+    );
+  });
+</script>
+
+</body>
+</html>
